@@ -8,8 +8,11 @@ all: $(OBJECTS)
 	g++ $(CFLAGS) $(OBJECTS) -o $(target)
 
 
-$(file1).o: $(file1).h $(file1).cpp
-	g++ -c $(CFLAGS) $(file1).cpp
+$(file1): $(file1).o
+	g++ $(file1).o -o $(file1)
+
+$(file1).o: $(file1).cpp
+	g++ -c $(file1).cpp -o $(file1).o
 
 clean:
 	rm -rf *.o
