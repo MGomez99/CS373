@@ -43,10 +43,6 @@ int main(int argc, char *argv[]){
     //SEE IF TEST STRING IS ACCEPTED OR REJECTED
     string s = argv[2];
     isAccepted(s, NFA);
-
+    return 0;
     
-
-    
-
-
 }

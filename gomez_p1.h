@@ -99,29 +99,8 @@ unordered_map<int, node> parseInput(string inputfile){
     return NFA;
 
 }
-void isAccepted(string input, unordered_map<int, node> NFA){
-    
-    set<int> current_available_states;
-    current_available_states.insert(STARTNODE.state);
-    set<int> next_states;
-    //iterate over the string
-    for(int i = 0; i < input.length(); i++){
-        char current_symbol = input[i];
-        next_states.clear();
-        //iterate over all current configurations
-        for(int current_state: current_available_states){
-            //iterate over all adjacencies  
-            for(pair<char, node> p: NFA[current_state].adjacent_nodes){
-                if(p.first == current_symbol){
-                    next_states.insert(p.second.state);
-                }
-                //for each adjacency, add valid transitions to the vector of next states
-                //we only added reachable nodes
-                //we've generated the next list of states.
-            }
-        }
-        current_available_states = next_states;
-    }
+
+void printResults(set<int> current_available_states, unordered_map<int, node> NFA){
     //we're now at the end of the string, and all of the current states are stored in current_available_states
     set<int> accept_states_reached;
     for(int state : current_available_states){
@@ -144,6 +123,32 @@ void isAccepted(string input, unordered_map<int, node> NFA){
         cout<<endl;
     }
     return;
+}
+void isAccepted(string input, unordered_map<int, node> NFA){
+    
+    set<int> current_available_states;
+    current_available_states.insert(STARTNODE.state);
+    set<int> next_states;
+    //we want to advance all possible states to the ending configurations
+    //iterate over the string
+    for(int i = 0; i < input.length(); i++){
+        char current_symbol = input[i];
+        next_states.clear();
+        //iterate over all current configurations
+        for(int current_state: current_available_states){
+            //iterate over all adjacencies  
+            for(pair<char, node> p: NFA[current_state].adjacent_nodes){
+                if(p.first == current_symbol){
+                    next_states.insert(p.second.state);
+                }
+                //for each adjacency, add valid transitions to the vector of next states
+                //we only added reachable nodes
+                //we've generated the next list of states.
+            }
+        }
+        current_available_states = next_states;
+    }
+    printResults(current_available_states, NFA);
 
 }
 
